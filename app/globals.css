@@ -1,0 +1,302 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   CSS VARIABLES — DARK THEME (default)
+   ============================================================ */
+:root {
+  --bg:               #0A0A0F;
+  --bg-alt:           #0D0D15;
+  --surface:          #111118;
+  --surface-hover:    #16161F;
+  --surface-elevated: #1A1A25;
+  --border:           #1E1E2E;
+  --border-hover:     #2E2E45;
+
+  --text-primary:   #F0F0FF;
+  --text-secondary: #A0A0B8;
+  --text-muted:     #6B6B85;
+
+  --accent:       #6366F1;
+  --accent-hover: #818CF8;
+  --accent-muted: rgba(99, 102, 241, 0.12);
+
+  --free-color: #10B981;
+  --free-muted: rgba(16, 185, 129, 0.12);
+
+  --urgency-safe:    #10B981;
+  --urgency-warning: #F59E0B;
+  --urgency-danger:  #EF4444;
+
+  /* Elevation system — dark uses shadow + subtle border lightness */
+  --shadow-sm:   0 1px 3px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.03) inset;
+  --shadow-md:   0 4px 16px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.04) inset;
+  --shadow-lg:   0 8px 32px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.04) inset;
+  --shadow-hover:0 12px 40px rgba(0,0,0,0.7);
+
+  --card-shadow:       var(--shadow-md);
+  --card-shadow-hover: var(--shadow-hover);
+
+  --grid-color: rgba(255,255,255,0.025);
+}
+
+/* ============================================================
+   CSS VARIABLES — WARM LIGHT THEME
+   ============================================================ */
+.light {
+  --bg:               #FDF6E3;
+  --bg-alt:           #FAF0D0;
+  --surface:          #FFFBF0;
+  --surface-hover:    #FFF5D9;
+  --surface-elevated: #FFFFFF;
+  --border:           #E8D5A3;
+  --border-hover:     #CEB97A;
+
+  --text-primary:   #1C1410;
+  --text-secondary: #5C4033;
+  --text-muted:     #9B7A5A;
+
+  --accent:       #C2410C;
+  --accent-hover: #9A3412;
+  --accent-muted: rgba(194, 65, 12, 0.10);
+
+  --free-color: #16A34A;
+  --free-muted: rgba(22, 163, 74, 0.10);
+
+  --urgency-safe:    #16A34A;
+  --urgency-warning: #D97706;
+  --urgency-danger:  #DC2626;
+
+  --shadow-sm:   0 1px 3px rgba(120,70,20,0.08);
+  --shadow-md:   0 4px 16px rgba(120,70,20,0.10);
+  --shadow-lg:   0 8px 32px rgba(120,70,20,0.14);
+  --shadow-hover:0 8px 32px rgba(120,70,20,0.20);
+
+  --card-shadow:       var(--shadow-md);
+  --card-shadow-hover: var(--shadow-hover);
+
+  --grid-color: rgba(0,0,0,0.04);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Subtle grid texture */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#__next, main { position: relative; z-index: 1; }
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+h1, h2, h3, h4 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+/* ============================================================
+   FOCUS RINGS — design-system aware, not browser-default blue
+   ============================================================ */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar        { width: 4px; height: 4px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: var(--border-hover); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+* { scrollbar-width: thin; scrollbar-color: var(--border-hover) transparent; }
+
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  .text-primary   { color: var(--text-primary); }
+  .text-secondary { color: var(--text-secondary); }
+  .text-muted     { color: var(--text-muted); }
+
+  .bg-surface      { background-color: var(--surface); }
+  .bg-surface-hover{ background-color: var(--surface-hover); }
+  .bg-elevated     { background-color: var(--surface-elevated); }
+  .bg-accent-muted { background-color: var(--accent-muted); }
+  .bg-free-muted   { background-color: var(--free-muted); }
+
+  .border-theme      { border-color: var(--border); }
+  .border-theme-hover{ border-color: var(--border-hover); }
+
+  .text-accent { color: var(--accent); }
+  .text-free   { color: var(--free-color); }
+
+  /* Shimmer skeleton animation */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--surface) 25%,
+      var(--surface-hover) 50%,
+      var(--surface) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+  }
+
+  .glass {
+    background: rgba(255,255,255,0.02);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .light .glass { background: rgba(255,248,231,0.7); }
+}
+
+/* ============================================================
+   DEAL CARD
+   ============================================================ */
+.deal-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--card-shadow);
+  transition:
+    transform 0.25s cubic-bezier(0.2, 0, 0, 1),
+    box-shadow 0.25s cubic-bezier(0.2, 0, 0, 1),
+    border-color 0.2s ease;
+}
+
+.deal-card:hover {
+  transform: translateY(-4px) scale(1.005);
+  box-shadow: var(--card-shadow-hover);
+  border-color: var(--border-hover);
+}
+
+/* Dark mode: subtle top-edge highlight for depth */
+:root .deal-card {
+  border-top-color: rgba(255,255,255,0.06);
+}
+
+/* Cover image blur wash */
+.card-cover-wash {
+  position: absolute;
+  inset: 0;
+  opacity: 0.09;
+  filter: blur(24px) saturate(1.8);
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+  transition: opacity 0.3s ease;
+}
+.deal-card:hover .card-cover-wash { opacity: 0.14; }
+.light .card-cover-wash           { opacity: 0.06; }
+
+/* Sale ribbon — diagonal stripe across top-right corner */
+.deal-sale-ribbon {
+  position: absolute;
+  top: 10px;
+  right: -22px;
+  width: 80px;
+  padding: 3px 0;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  transform: rotate(35deg);
+  background: linear-gradient(135deg, #10B981, #059669);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(16,185,129,0.4);
+  z-index: 20;
+  pointer-events: none;
+}
+
+/* Countdown urgency */
+.urgency-safe    { color: var(--urgency-safe); }
+.urgency-warning { color: var(--urgency-warning); }
+.urgency-danger  { color: var(--urgency-danger); }
+
+/* Pill filter */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+.pill:hover { border-color: var(--border-hover); color: var(--text-primary); }
+.pill.active { background-color: var(--accent-muted); border-color: var(--accent); color: var(--accent); }
+
+/* ============================================================
+   TAB CROSSFADE — used by SectionTabs deal grid transitions
+   ============================================================ */
+.tab-panel-enter {
+  animation: tabFadeIn 0.18s ease forwards;
+}
+
+@keyframes tabFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   HEADER DEPTH
+   ============================================================ */
+header.sticky {
+  box-shadow: 0 1px 0 var(--border), 0 4px 16px rgba(0,0,0,0.2);
+}
+.light header.sticky {
+  box-shadow: 0 1px 0 var(--border), 0 4px 12px rgba(120,70,20,0.07);
+}
